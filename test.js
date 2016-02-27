@@ -13,6 +13,7 @@ function randstr() {
 var createSbot = require('scuttlebot')
   .use(require('scuttlebot/plugins/master'))
   .use(require('scuttlebot/plugins/blobs'))
+  .use(require('scuttlebot/plugins/friends'))
 
 var appName = 'git_ssb_test_' + randstr()
 var sbotPath = path.join(os.tmpdir(), appName)
@@ -75,7 +76,7 @@ test('clone empty repo', function (t) {
 test('push package repo to the remote', function (t) {
   // TODO: use something other than the project repo
   cwd = srcPath
-  git('push', url, 'master', function (ret) {
+  git('push', '-q', url, 'master', function (ret) {
     t.error(ret, 'git push')
     t.end()
   })
@@ -83,7 +84,7 @@ test('push package repo to the remote', function (t) {
 
 test('pull from the remote', function (t) {
   cwd = repoPath
-  git('pull', url, 'master', function (ret) {
+  git('pull', '-q', url, 'master', function (ret) {
     t.error(ret, 'git pull')
     t.end()
   })
